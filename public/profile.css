@@ -198,215 +198,244 @@ button {
 }
 
 .delete-btn {
-    background: #d32f2f;
+    background: rgb(172, 172, 172);
+    color: rgb(57, 57, 57);
 }
 
 .delete-btn:hover {
-    background-color: #b71c1c;
+    background-color: rgb(143, 143, 143);
 }
 
-body {
-    font-family: "Jost", sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-    color: #333;
+
+button.save {
+    background: rgb(3, 136, 3);
 }
 
-.page-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+button.save:hover {
+    background-color: rgb(3, 103, 3);
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e0e0e0;
+button.cancel {
+    background: rgb(134, 134, 134);
 }
 
-h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin: 0;
+button.cancel:hover {
+    background: rgb(101, 101, 101);
 }
 
-.back-link {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
-
-.back-link:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-#postsContent {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    grid-auto-rows: 10px; /* Base row height for masonry */
-}
-
-.item-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: fit-content;
-}
-
-.item-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-
-.item-heading h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: #2c3e50;
-}
-
-.item-subinfo {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.topic {
-    background: #e9ecef;
-    padding: 0.2rem 0.6rem;
-    border-radius: 12px;
-    color: #495057;
-}
-
-.tags {
-    color: #6c757d;
-}
-
-.tag {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    margin-right: 0.2rem;
-}
-
-.excerpt {
-    line-height: 1.6;
-    color: #4a4a4a;
-}
-
-.item-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: auto;
-}
-
-.calendar {
-    text-align: center;
-    background: #f8f9fa;
-    padding: 0.5rem;
-    border-radius: 8px;
-    min-width: 60px;
-    border: 1px solid #e9ecef;
-}
-
-.calendar .month {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: #dc3545;
-    font-weight: bold;
-}
-
-.calendar .day {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #212529;
-    line-height: 1;
-    margin: 0.2rem 0;
-}
-
-.calendar .year {
-    font-size: 0.8rem;
-    color: #6c757d;
-}
-
-.loading, .no-posts, .error {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem;
-    font-size: 1.2rem;
-    color: #6c757d;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.error {
-    color: #dc3545;
-    background: #fff5f5;
-}
-
-/* Dark foreground for light backgrounds */
-.dark-foreground {
-    color: #000 !important;
-}
-
-.dark-foreground .item-heading h3 {
-    color: #000 !important;
-}
-
-.dark-foreground .excerpt {
-    color: #222 !important;
-}
 
 .item-actions {
     display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    gap: 1rem;
+    justify-content: flex-end;
 }
 
-.item-actions button {
-    flex: 1;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s;
+body {
+  font-family: "Jost", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
 }
 
-.edit-btn {
-    background: #ffc107;
-    color: #000;
+.page-wrapper {
+  margin: 0 auto;
 }
 
-.edit-btn:hover {
-    background: #e0a800;
+.header {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.delete-btn {
-    background: #dc3545;
-    color: white;
+h1 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
 }
 
-.delete-btn:hover {
-    background: #c82333;
+.back-link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  background: #764ba2;
+}
+
+#postsContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+  grid-auto-rows: 10px;
+  gap: 40px;
+}
+
+.item-card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: #ffffffcc;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  box-sizing: border-box;
+  align-self: start;
+  margin: 10px 20px;
+  word-break: break-word;
+}
+
+.item-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.item-card.dark-foreground h3,
+.item-card.dark-foreground .topic,
+.item-card.dark-foreground .tags,
+.item-card.dark-foreground .tag,
+.item-card.dark-foreground p {
+  color: #ffffff;
+}
+
+.item-card h3 {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.item-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.item-subinfo {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.item-subinfo .topic {
+  font-weight: 600;
+  color: #333;
+}
+
+.tags {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  color: #000000;
+}
+
+.tag {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.item-info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.excerpt {
+  flex-grow: 1;
+}
+
+.excerpt p {
+  margin: 0;
+  line-height: 1.5;
+  color: #000000;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  width: 4rem;
+  text-align: center;
+  margin: 0;
+  background: #3b3b3b66;
+  color: #fff;
+  border-radius: 1rem;
+}
+
+.calendar .month {
+  border-top: 1px solid white;
+  text-transform: uppercase;
+  background: #3b3b3b66;
+  font-weight: 700;
+  padding: 0.25rem;
+}
+
+.calendar .day {
+  border-top: 1px solid white;
+  background: #3b3b3bbb;
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 0.25rem;
+}
+
+.calendar .year {
+  border-top: 1px solid white;
+  font-weight: 700;
+  padding: 0.25rem;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.no-posts {
+  text-align: center;
+  color: #999;
+  padding: 3rem 2rem;
+  font-style: italic;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.loading {
+  text-align: center;
+  color: #667eea;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.error {
+  text-align: center;
+  color: #e74c3c;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }

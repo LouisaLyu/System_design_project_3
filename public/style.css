@@ -17,7 +17,6 @@ body {
     background-position: center;
 }
 
-
 h1 {
     font-family: "Corinthia", cursive;
     font-weight: 700;
@@ -115,6 +114,7 @@ button.cancel:hover {
     grid-auto-rows: 10px; 
     gap: 40px;
 }
+
 
 /* Responsive layout for smaller screens */
 @media (max-width: 480px) {
@@ -549,4 +549,37 @@ meter::-webkit-meter-even-less-good-value {
 
 .delete-btn:hover {
     background-color: rgb(143, 143, 143);
+}
+
+#authNav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+
+#userStatus {
+    cursor: pointer;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff; /* match the Log In button color */
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    transition: background-color 0.12s ease, transform 0.08s ease;
+}
+
+#userStatus:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+#userStatus[style*="display: none"] {
+    /* keep hidden when script hides it */
+    display: none !important;
 }

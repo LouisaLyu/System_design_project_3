@@ -393,8 +393,8 @@ const renderItem = (item) => {
         })
     } else {
         // Not owner: hide the buttons to prevent UI access. Keep server-side checks.
-        if (editBtn) editBtn.style.display = 'none'
-        if (deleteBtn) deleteBtn.style.display = 'none'
+        if (editBtn) editBtn.style.visibility = 'hidden'
+        if (deleteBtn) deleteBtn.style.visibility = 'hidden'
     }
 
     return div

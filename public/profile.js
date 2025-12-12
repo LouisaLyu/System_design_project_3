@@ -53,6 +53,7 @@ const calendarWidget = (date) => {
     const day = new Date(date).toLocaleString("en-CA", { day: '2-digit', timeZone: "UTC" })
     const year = new Date(date).toLocaleString("en-CA", { year: 'numeric', timeZone: "UTC" })
     return `<div class="calendar">
+                <div class="born">...</div>
                 <div class="month">${month}</div>
                 <div class="day">${day}</div>
                 <div class="year">${year}</div>
@@ -95,7 +96,7 @@ const renderPostCard = (post) => {
         </div>
 
         <div class="item-info">
-            <div class="excerpt">
+                <div class="excerpt" style="width: 80%;">
                 <p>${post.body}</p>
             </div>
             ${calendarWidget(post.entryDate)}
@@ -124,11 +125,11 @@ const renderPostCard = (post) => {
     const deleteBtn = div.querySelector('.delete-btn')
 
     editBtn.addEventListener('click', async () => {
-            editItem(post)
-        })
-        deleteBtn.addEventListener('click', async () => {
-            deleteItem(post.id)
-        })
+        editItem(post)
+    })
+    deleteBtn.addEventListener('click', async () => {
+        deleteItem(post.id)
+    })
 
     return div
 }
@@ -140,35 +141,35 @@ const postsContent = document.getElementById('postsContent');
 // Load and render user's posts
 const loadUserPosts = async () => {
     if (!postsContent) return; // Only run on profile page
-    
+
     try {
         postsContent.innerHTML = '<div class="loading">Loading your posts...</div>';
-        
+
         // Fetch user profile first to get userId
         const profileRes = await fetch('/profile');
         if (!profileRes.ok) throw new Error('Failed to fetch profile');
-        
+
         const user = await profileRes.json();
         const userId = user.sub;
-        
+
         // Fetch user's posts via search endpoint with userId filter
         const searchRes = await fetch(`/search?userId=${encodeURIComponent(userId)}`);
         if (!searchRes.ok) throw new Error('Failed to fetch posts');
-        
+
         const userPosts = await searchRes.json();
-        
+
         if (userPosts.length === 0) {
             postsContent.innerHTML = '<div class="no-posts">You haven\'t created any journal entries yet. Start by going back to the main page!</div>';
             return;
         }
-        
+
         // Clear and render posts using masonry layout
         postsContent.innerHTML = '';
         userPosts.forEach(post => {
             const cardDiv = renderPostCard(post);
             postsContent.appendChild(cardDiv);
         });
-        
+
         // Calculate grid spans for masonry effect
         calcGridSpans();
     } catch (err) {
@@ -408,3 +409,4 @@ window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(calcGridSpans, 150);
 });
+
