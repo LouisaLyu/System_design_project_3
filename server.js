@@ -11,9 +11,9 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.secret,
-  baseURL: 'https://system-design-project-3.vercel.app',
-  clientID: 'qjgg6QHCXOg71MEqsbSFbWtXJK8glyMQ',
-  issuerBaseURL: 'https://dev-qdsz7zdlvmzuofqu.ca.auth0.com'
+  baseURL: 'https://system-design-project-3.vercel.app/',
+  clientID: 'IQTjk2X48ewECsOUkAvw7i9LyTEslv7Q',
+  issuerBaseURL: 'https://dev-qdsz7zdlvmzuofqu.ca.auth0.com/'
 };
 
 app.use(express.static('public'));
