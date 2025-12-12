@@ -1,6 +1,12 @@
 // Express is a framework for building APIs and web apps
 // See also: https://expressjs.com/
 import express from 'express'
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Initialize Express app
 const app = express()
 
@@ -16,14 +22,14 @@ const config = {
   issuerBaseURL: 'https://dev-qdsz7zdlvmzuofqu.ca.auth0.com'
 };
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // req.isAuthenticated is provided from the auth router
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: 'public' });
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/login', (req, res) => {
@@ -32,7 +38,7 @@ app.get('/login', (req, res) => {
 
 // Serve profile page
 app.get('/userprofile', requiresAuth(), (req, res) => {
-  res.sendFile('profile.html', { root: 'public' });
+  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
 });
 
 // API endpoint for fetching user profile as JSON
