@@ -111,7 +111,7 @@ button.cancel:hover {
 #contentArea {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-    grid-auto-rows: 10px; 
+    grid-auto-rows: 10px;
     gap: 40px;
 }
 
@@ -552,12 +552,12 @@ meter::-webkit-meter-even-less-good-value {
 }
 
 #authNav {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 15px;
-  align-items: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 
@@ -565,21 +565,34 @@ meter::-webkit-meter-even-less-good-value {
     cursor: pointer;
     display: inline-block;
     padding: 8px 16px;
-    background-color: #007bff; /* match the Log In button color */
-    color: #fff;
+    /* background-color: #007bff; */
+    color: #000000;
     border-radius: 4px;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     transition: background-color 0.12s ease, transform 0.08s ease;
 }
 
 #userStatus:hover {
-    background-color: #0056b3;
+    background-color: #b5b5b5;
     transform: translateY(-1px);
 }
 
 #userStatus[style*="display: none"] {
     /* keep hidden when script hides it */
     display: none !important;
+}
+
+#loginLink,
+#logoutLink {
+    padding: 8px 16px;
+    border-radius: 4px;
+
+}
+
+#loginLink,
+#logoutLink:hover {
+    background-color: #b5b5b5;
+    transform: translateY(-1px);
 }
