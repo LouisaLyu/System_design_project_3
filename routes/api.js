@@ -21,6 +21,41 @@ prisma.$connect().then(() => {
     console.error('Failed to connect to MongoDB:', err)
 })
 
+
+// --- Simple Server-Sent Events (SSE) setup for live updates ---
+const sseClients = new Set()
+
+// Clients subscribe here for real-time change notifications
+router.get('/events', (req, res) => {
+    // Standard SSE headers
+    res.setHeader('Content-Type', 'text/event-stream')
+    res.setHeader('Cache-Control', 'no-cache')
+    res.setHeader('Connection', 'keep-alive')
+
+    // Send a comment so the connection is established
+    res.write(': connected\n\n')
+
+    sseClients.add(res)
+
+    req.on('close', () => {
+        sseClients.delete(res)
+    })
+})
+
+// Helper to broadcast a change event to all connected clients
+const pushChangeEvent = (payload) => {
+    const data = `data: ${JSON.stringify(payload)}\n\n`
+    for (const client of sseClients) {
+        client.write(data)
+    }
+}
+setInterval(() => {
+    const ping = `event: ping\ndata: ${Date.now()}\n\n`
+    for (const client of sseClients) {
+        client.write(ping)
+    }
+}, 25000)
+
 // ----- CREATE (POST) -----
 // Create a new record for the configured model
 // This is the 'C' of CRUD
@@ -41,6 +76,12 @@ router.post('/data', requiresAuth(), async (req, res) => {
             }
         })
         res.status(201).send(created)
+
+        pushChangeEvent({
+            type: 'journal-change',
+            action: 'created',
+            item: created
+        })
     } catch (err) {
         console.error('POST /data error:', err)
         res.status(500).send({ error: 'Failed to create record', details: err.message || err })
@@ -140,6 +181,12 @@ router.put('/data/:id', requiresAuth(), async (req, res) => {
             data: updateData
         })
         res.send(updated)
+
+        pushChangeEvent({
+            type: 'journal-change',
+            action: 'updated',
+            item: updated
+        })
     } catch (err) {
         console.error('PUT /data/:id error:', err)
         res.status(500).send({ error: 'Failed to update record', details: err.message || err })
@@ -172,6 +219,12 @@ router.delete('/data/:id', requiresAuth(), async (req, res) => {
             where: { id: req.params.id }
         })
         res.send(result)
+
+        pushChangeEvent({
+            type: 'journal-change',
+            action: 'deleted',
+            item: result   // contains the deleted row
+        })
     } catch (err) {
         console.error('DELETE /data/:id error:', err)
         res.status(500).send({ error: 'Failed to delete record', details: err.message || err })

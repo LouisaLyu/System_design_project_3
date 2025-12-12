@@ -463,6 +463,77 @@ if (saveButton) saveButton.addEventListener('click', () => myForm.requestSubmit(
 // Load initial data
 getData()
 
+// --- Live updates from the server (SSE) ---
+
+// If an SSE change arrives while the user is editing, we queue it
+let changeQueuedWhileEditing = null
+
+const applyServerChangeOnHome = (change) => {
+    const previousScroll = window.scrollY
+
+    getData()
+        .then(() => {
+            // Restore scroll so the page doesn't jump
+            window.scrollTo(0, previousScroll)
+
+            // If we know which item changed, give it a subtle highlight
+            if (change && change.item && change.item.id && contentArea) {
+                const card = contentArea.querySelector(
+                    `[data-id="${change.item.id}"]`
+                )
+                if (card) {
+                    card.classList.add('just-updated')
+                    setTimeout(() => {
+                        card.classList.remove('just-updated')
+                    }, 2000)
+                }
+            }
+        })
+        .catch(err => {
+            console.error('Error refreshing after server change:', err)
+        })
+}
+
+if (typeof EventSource !== 'undefined') {
+    const events = new EventSource('/events')
+
+    events.addEventListener('message', (event) => {
+        if (!event.data) return
+
+        let payload
+        try {
+            payload = JSON.parse(event.data)
+        } catch (e) {
+            console.warn('Unable to parse SSE payload on home page', e)
+            return
+        }
+
+        if (payload.type !== 'journal-change') return
+
+        // If the edit dialog is open, wait until the user finishes
+        if (formDialog && formDialog.open) {
+            changeQueuedWhileEditing = payload
+            return
+        }
+
+        applyServerChangeOnHome(payload)
+    })
+
+    events.addEventListener('error', (err) => {
+        console.warn('EventSource error on home page:', err)
+    })
+
+    // When the dialog closes, apply any queued change
+    if (formDialog) {
+        formDialog.addEventListener('close', () => {
+            if (changeQueuedWhileEditing) {
+                const payload = changeQueuedWhileEditing
+                changeQueuedWhileEditing = null
+                applyServerChangeOnHome(payload)
+            }
+        })
+    }
+}
 
 let resizeTimeout;
 window.addEventListener('resize', () => {
