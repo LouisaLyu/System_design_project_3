@@ -8,6 +8,73 @@ let saveButton = document.querySelector('#saveButton')
 let cancelButton = document.querySelector('#cancelButton')
 let formHeading = document.querySelector('.modal-header h2')
 
+let editingId = null // Track the currently editing item ID
+let currentUserId = null // Auth0 `sub` for the logged-in user
+
+// Check user login status and update navbar
+const userStatus = document.querySelector('#userStatus')
+const loginLink = document.querySelector('#loginLink')
+const logoutLink = document.querySelector('#logoutLink')
+
+const checkAuthStatus = async () => {
+  try {
+    const response = await fetch('/profile')
+    if (response.ok) {
+        const user = await response.json()
+        //console.log(user);
+        // User is logged in
+        userStatus.textContent = `👤 ${user.nickname || user.name || user.email}`
+        userStatus.style.display = 'inline-block'
+        // store the Auth0 user id (sub) for client-side ownership checks
+        currentUserId = user.sub || null
+        loginLink.style.display = 'none'
+        logoutLink.style.display = 'block'
+    } 
+    else {
+        // User is not logged in
+        userStatus.textContent = 'Not logged in'
+        userStatus.style.display = 'none'
+        currentUserId = null
+        loginLink.style.display = 'block'
+        logoutLink.style.display = 'none'
+    }
+  } catch (err) {
+        console.error('Auth check error:', err)
+        userStatus.textContent = 'Not logged in'
+        userStatus.style.display = 'none'
+        currentUserId = null
+        loginLink.style.display = 'block'
+        logoutLink.style.display = 'none'
+  }
+}
+
+// Check auth status on page load
+checkAuthStatus()
+
+// Ensure the user is authenticated; if not, redirect to login
+const ensureAuth = async () => {
+    try {
+        const response = await fetch('/profile')
+        if (response.ok) {
+            return await response.json()
+        }
+    } catch (err) {
+        console.error('Auth check error:', err)
+    }
+    // Not authenticated -> redirect to login page
+    window.location.href = '/login'
+    return null
+}
+
+if (userStatus) {
+    userStatus.style.cursor = 'pointer'
+    userStatus.addEventListener('click', () => {
+        window.location.href = '/userprofile'
+    })
+}
+/*Above: Newly added code for user auth */
+
+
 // Get form data and process each type of input
 // Prepare the data as JSON with a proper set of types
 // e.g. Booleans, Numbers, Dates
@@ -85,7 +152,12 @@ myForm.addEventListener('submit', async event => {
     } else {
         data.tags = []
     }
+    // NEW: if we're NOT editing, make sure we don't send an id
+    if (!editingId) {
+        delete data.id
+    }
     await saveItem(data)
+    editingId = null
     myForm.reset()
     if (formDialog && typeof formDialog.close === 'function') formDialog.close()
 })
@@ -141,6 +213,8 @@ const saveItem = async (data) => {
 // Edit item - populate form with existing data
 const editItem = (data) => {
     console.log('Editing:', data)
+
+    editingId = data.id // Set the currently editing item ID
 
     // Populate the form with data to be edited
     Object.keys(data).forEach(field => {
@@ -298,9 +372,30 @@ const renderItem = (item) => {
         if (div.parentElement === contentArea) contentArea.removeChild(div)
     }
 
-    // Add event listeners to buttons
-    div.querySelector('.edit-btn').addEventListener('click', () => editItem(item))
-    div.querySelector('.delete-btn').addEventListener('click', () => deleteItem(item.id))
+    // Add event listeners to buttons (require login first). Only attach if the
+    // logged-in user is the owner of the item. Otherwise hide the controls.
+    const editBtn = div.querySelector('.edit-btn')
+    const deleteBtn = div.querySelector('.delete-btn')
+
+    const isOwner = item.userId && currentUserId && (item.userId === currentUserId)
+
+    if (isOwner) {
+        // Owner: attach handlers
+        editBtn.addEventListener('click', async () => {
+            const user = await ensureAuth()
+            if (!user) return
+            editItem(item)
+        })
+        deleteBtn.addEventListener('click', async () => {
+            const user = await ensureAuth()
+            if (!user) return
+            deleteItem(item.id)
+        })
+    } else {
+        // Not owner: hide the buttons to prevent UI access. Keep server-side checks.
+        if (editBtn) editBtn.style.display = 'none'
+        if (deleteBtn) deleteBtn.style.display = 'none'
+    }
 
     return div
 }
@@ -348,8 +443,11 @@ const getData = async () => {
 // Revert to the default form title on reset
 myForm.addEventListener('reset', () => formHeading.textContent = '📝 New Journal Entry')
 
-// Open dialog when create button clicked
-createButton.addEventListener('click', () => {
+// Open dialog when create button clicked (require login first)
+createButton.addEventListener('click', async () => {
+    const user = await ensureAuth()
+    if (!user) return
+    editingId = null // Clear the currently editing item ID
     myForm.reset()
     if (formDialog && typeof formDialog.showModal === 'function') formDialog.showModal()
 })

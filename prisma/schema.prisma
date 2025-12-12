@@ -17,6 +17,7 @@ model JournalEntry {
   body       String
   title      String?
   tags       String[]
+  userId     String    // Auth0 user ID of who created this entry
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt 
 }
