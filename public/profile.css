@@ -439,6 +439,7 @@ h1 {
 
 .error {
     text-align: center;
+    color: #e74c3c;
     padding: 3rem 2rem;
     background: white;
     border-radius: 1rem;

@@ -1,9 +1,5 @@
 {
   "rewrites": [
-    { "source": "/login", "destination": "/api/app" },
-    { "source": "/logout", "destination": "/api/app" },
-    { "source": "/callback", "destination": "/api/app" },
-    { "source": "/profile", "destination": "/api/app" },
-    { "source": "/userprofile", "destination": "/api/app" }
+    { "source": "/(.*)", "destination": "/server.js" }
   ]
 }

@@ -54,3 +54,5 @@ const port = 3001
 app.listen(port, () => {
     console.log(`Express is live at http://localhost:${port}`)
 })
+
+export default app;
