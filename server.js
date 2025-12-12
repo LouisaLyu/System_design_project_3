@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
 // Express is a framework for building APIs and web apps
 // See also: https://expressjs.com/
 import express from 'express'
@@ -13,7 +11,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.secret,
-  baseURL: 'http://localhost:3001',
+  baseURL: 'https://system-design-project-3.vercel.app',
   clientID: 'qjgg6QHCXOg71MEqsbSFbWtXJK8glyMQ',
   issuerBaseURL: 'https://dev-qdsz7zdlvmzuofqu.ca.auth0.com'
 };
