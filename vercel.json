@@ -1,9 +1,14 @@
 {
   "rewrites": [
-    { "source": "/login", "destination": "/api/app" },
-    { "source": "/logout", "destination": "/api/app" },
-    { "source": "/callback", "destination": "/api/app" },
-    { "source": "/profile", "destination": "/api/app" },
-    { "source": "/userprofile", "destination": "/api/app" }
-  ]
+    { "source": "/login", "destination": "/api/server" },
+    { "source": "/logout", "destination": "/api/server" },
+    { "source": "/callback", "destination": "/api/server" },
+    { "source": "/profile", "destination": "/api/server" },
+    { "source": "/userprofile", "destination": "/api/server" }
+  ],
+  "functions": {
+    "api/server.js": {
+      "includeFiles": "public/**"
+    }
+  }
 }
